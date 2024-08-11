@@ -1,4 +1,9 @@
 import { Module } from '@nestjs/common';
+import { DataManagerService } from './data-manager.service';
 
-@Module({})
-export class DataManagerModule {}
+@Module({
+  providers: [DataManagerService],
+  exports:[DataManagerService]
+})
+export class DataManagerModule {
+}
