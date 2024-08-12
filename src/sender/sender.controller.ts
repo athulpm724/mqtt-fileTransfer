@@ -1,5 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { SenderService } from './sender.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('sender')
 export class SenderController {
@@ -8,9 +9,10 @@ export class SenderController {
         private readonly senderService:SenderService
     ){}
 
-
-    @Get('/:path')
-    async registerFile(@Param('path')path:string):Promise<any>{
-        return await this.senderService.registerFile(path);
+    @Post('file')
+    @UseInterceptors(FileInterceptor('file'))
+    async registerFile(@UploadedFile('file') file: Express.Multer.File):Promise<any>{
+        return await this.senderService.registerFile(file);
     }
 }
+    
